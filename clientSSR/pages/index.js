@@ -1,5 +1,9 @@
-import React from 'react';
-
+import React, {Component} from 'react';
+class HomePage extends Component{
+  static async getInitialProps(context){
+    
+  }
+}
 const homePage = (props)=>(
   <div>
     <h1>Hello How Are U?</h1>

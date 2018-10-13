@@ -14,7 +14,34 @@ const makeStore = (initialState, options) => {
     const store = createStore(rootReducer, initialState, applyMiddleware(sagaMiddleware));
     return store;
 };
- 
+if (!isEmpty(localStorage.getItem('currentUser'))) {
+  let token = localStorage.getItem('currentUser');
+  //console.log(token);
+  let tokenDecode = null;
+  try {
+    tokenDecode = jwt_decode(localStorage.getItem('currentUser'));
+  } catch (error) {
+    tokenDecode = null;
+  }
+  if (tokenDecode) {
+    setAuthToken(token);
+
+    store.dispatch({
+      type: actionTypes.auth.SET_USER,
+      payload: tokenDecode
+    });
+  } else {
+    localStorage.removeItem('currentUser');
+    store.dispatch({
+      type: actionTypes.auth.REMOVE_USER
+    });
+  }
+} else {
+  store.dispatch({
+    type: actionTypes.auth.REMOVE_USER
+  });
+}
+
 class MyApp extends App {
  
     static async getInitialProps({Component, ctx}) {
