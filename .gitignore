@@ -1,4 +1,5 @@
 node_modules/
 client/node_modules/
 clientSSR/node_modules/
+clientSSR/.next/
 config/.env
