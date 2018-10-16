@@ -1,16 +1,28 @@
 import React, {Component} from 'react';
-class HomePage extends Component{
-  static async getInitialProps(context){
-    
-  }
-}
+import Link from 'next/link';
+import {connect} from 'react-redux';
+import {setUser} from '../store/actions/auth';
+import {setTest} from '../store/actions/test';
+import Head from 'next/head';
 const homePage = (props)=>(
   <div>
-    <h1>Hello How Are U?</h1>
+    <Head>
+      <title>Muscal Goggles | Home</title>
+    </Head>
+    <h1>Hello How Are U? {props.isServer? "This is from server":"From another client"}</h1>
+    <Link href = "/blog/asdfasdf"><a>Blog page </a></Link>
   </div>
 );
 homePage.getInitialProps = async function(context){
-  console.log(context);
-  return {query: context.query};
+  const { store, isServer, query } = context.ctx;
+  if(isServer){
+    store.dispatch(setTest("asdfasdfa"));
+  }
+  if(!isServer){
+    console.log(localStorage.getItem("currentUser"));
+  }
+  //console.log("run once");
+  //console.log(localStorage);
+  return {query, isServer};
 }
-export default homePage;
+export default connect(state => state)(homePage);
