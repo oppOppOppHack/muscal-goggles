@@ -3,4 +3,4 @@ client/node_modules/
 clientSSR/node_modules/
 clientSSR/.next/
 test/node_modules/
-config/.env
+.env

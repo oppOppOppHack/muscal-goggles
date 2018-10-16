@@ -10,7 +10,12 @@
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "clientSSR": "npm run dev --prefix clientSSR",
-    "devSSR": "concurrently \"npm run server\" \"npm run clientSSR\""
+    "devSSR": "concurrently \"npm run server\" \"npm run clientSSR\"",
+    "clientSSRBuild": "npm run build --prefix clientSSR",
+    "clientSSRProd": "npm start --prefix clientSSR",
+    "clientSSRProdWindows": "npm run startWindows --prefix clientSSR",
+    "prodSSR": "concurrently \"npm run server\" \"npm run clientSSRProd\"",
+    "prodSSRWindows": "concurrently \"npm run server\" \"npm run clientSSRProdWindows\""
   },
   "repository": {
     "type": "git",
