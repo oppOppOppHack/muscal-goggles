@@ -3,18 +3,21 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core';
-import './App.css';
-
-class App extends Component
+import './TemplateCreator.css';
+class TemplateCreator extends Component
 {
   state = {
     name: '',
-    type: '',
-    attributes: [],
+    type2: '',
+    fields: [],
     attributeName: '',
-    templateOption: '',
+    type: '',
   }
-
+  onSubmitHandler(){
+    const {name, fields, type} = this.state
+    const templateForm = {name, fields, type};
+    this.props.submit(templateForm);
+  }
   render()
   {
     const {classes} = this.props;
@@ -55,9 +58,9 @@ class App extends Component
 
     const getAttributes = () =>
     {
-      return this.state.attributes.map((temp) =>
+      return this.state.fields.map((temp) =>
       {
-        const index = this.state.attributes.indexOf(temp);
+        const index = this.state.fields.indexOf(temp);
 
         return (
           <div className = 'attribute' key = {index}>
@@ -68,9 +71,9 @@ class App extends Component
               onClick = {(e) =>
               {
                 e.preventDefault();
-                let tempArray = JSON.parse(JSON.stringify(this.state.attributes));
+                let tempArray = JSON.parse(JSON.stringify(this.state.fields));
                 tempArray.splice(index, 1);
-                this.setState({attributes: tempArray});
+                this.setState({fields: tempArray});
               }}
               className = 'button'
             >
@@ -99,17 +102,17 @@ class App extends Component
             select
             label = 'template type'
             className = {classes.textField}
-            value = {this.state.templateOption}
+            value = {this.state.type}
             onChange = {(event) =>
             {
-              this.setState({templateOption: event.target.value});
+              this.setState({type: event.target.value});
             }}
             SelectProps = {{MenuProps: {className: classes.menu}}}
           >
             {getTemplateOptions()}
           </TextField>
           <div className = 'divider'/>
-          {this.state.attributes.length === 0 ? null : getAttributes()}
+          {this.state.fields.length === 0 ? null : getAttributes()}
         </div>
         <div className = 'divider'/>
         <div className = 'attributeCreator'>
@@ -127,10 +130,10 @@ class App extends Component
             select
             label = 'attribute type'
             className = {classes.textField}
-            value = {this.state.type}
+            value = {this.state.type2}
             onChange = {(event) =>
             {
-              this.setState({type: event.target.value});
+              this.setState({type2: event.target.value});
             }}
             SelectProps = {{MenuProps: {className: classes.menu}}}
           >
@@ -143,10 +146,10 @@ class App extends Component
             onClick = {(e) =>
             {
               e.preventDefault();
-              const temp = [this.state.attributeName, this.state.type];
-              let tempArray = JSON.parse(JSON.stringify(this.state.attributes));
+              const temp = {name: this.state.attributeName, type: this.state.type2};
+              let tempArray = JSON.parse(JSON.stringify(this.state.fields));
               tempArray.push(temp);
-              this.setState({attributes: tempArray});
+              this.setState({fields: tempArray});
             }}
             className = 'button'
           >
@@ -161,6 +164,7 @@ class App extends Component
           {
             e.preventDefault();
             console.log(this.state);
+            this.onSubmitHandler();
           }}
           className = 'button'
         >
@@ -188,4 +192,4 @@ const styles = (theme) =>
   });
 }
 
-export default withStyles(styles)(App);
+export default withStyles(styles)(TemplateCreator);
