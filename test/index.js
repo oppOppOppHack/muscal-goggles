@@ -1,6 +1,6 @@
-const Nightmare = require("nightmare");
+const Nightmare = require("nightmare")({show: true});
 const expect = require("chai").expect;
-
+/*
 describe("Home Page", function () {
   this.timeout(60000);
   it("Should Load", function () {
@@ -14,4 +14,12 @@ describe("Home Page", function () {
         done();
       })
   })
-})
+});
+*/
+const runTests = function(testObj){
+  testObj.forEach(element => {
+    describe(element.name, elment.test(Nightmare, expect));
+  });
+}
+const loginTest = require("./loginTest");
+runTests(loginTest);

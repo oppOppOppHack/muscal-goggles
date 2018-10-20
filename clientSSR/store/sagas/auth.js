@@ -11,7 +11,7 @@ import {
   setRegisterError,
   removeRegisterUserError
 } from '../actions/auth';
-export function* loginUser(action){
+export function* loginUser(action){ //{data: data, history: history}
   try{
     const response = yield axios.post("http://localhost:5000/api/users/login", action.data);
     yield localStorage.setItem('currentUser', response.data.token);
@@ -23,6 +23,15 @@ export function* loginUser(action){
   }catch(error){
     yield put(setLoginError(error.response.data));
   }
+}
+/*
+{
+  author:
+  
+}
+*/
+export function* getBooks(action){
+
 }
 export function* registerUser(action){
   try{

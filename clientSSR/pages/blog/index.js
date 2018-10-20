@@ -15,6 +15,21 @@ class blogPage extends Component{
       console.log("not server")
     }
     console.log(query);
+    /*
+    query:
+      {
+        params:{
+          //url
+          title: 123454
+          //http://loclahost:3000/blog/123454
+        },
+        query: {
+          q: 123123,
+          hello: 123124
+          //?q=123123&hello=123124
+        }
+      }
+    */
     return {query, isServer};
   }
   componentDidMount(){
