@@ -12,10 +12,10 @@ app.prepare()
   server.use(bodyParser.urlencoded({ extended: false }));  
   server.use(bodyParser.json());
   server.get('/blog/:id', (req, res) => {
-    console.log(req.query);
     const actualPage = '/blog'
+    const {query} = req;
     const params = {title: req.params.id}
-    const queryParams = { params, query: req.query } 
+    const queryParams = { params, query } 
     app.render(req, res, actualPage, queryParams)
   })
   
