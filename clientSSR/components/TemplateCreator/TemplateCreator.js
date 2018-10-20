@@ -8,12 +8,12 @@ class TemplateCreator extends Component
 {
   state = {
     name: '',
+
     templateOption: '',
     attributes: [],
     type: '',
     attributeName: '',
   }
-
   render()
   {
     const {classes} = this.props;
@@ -54,9 +54,9 @@ class TemplateCreator extends Component
 
     const getAttributes = () =>
     {
-      return this.state.attributes.map((temp) =>
+      return this.state.fields.map((temp) =>
       {
-        const index = this.state.attributes.indexOf(temp);
+        const index = this.state.fields.indexOf(temp);
 
         return (
           <div className = {classes.attribute} key = {index}>
@@ -67,9 +67,9 @@ class TemplateCreator extends Component
               onClick = {(e) =>
               {
                 e.preventDefault();
-                let tempArray = JSON.parse(JSON.stringify(this.state.attributes));
+                let tempArray = JSON.parse(JSON.stringify(this.state.fields));
                 tempArray.splice(index, 1);
-                this.setState({attributes: tempArray});
+                this.setState({fields: tempArray});
               }}
               className = 'button'
             >
@@ -98,17 +98,19 @@ class TemplateCreator extends Component
             select
             label = 'template type'
             className = {classes.textField}
-            value = {this.state.templateOption}
+            value = {this.state.type}
             onChange = {(event) =>
             {
-              this.setState({templateOption: event.target.value});
+              this.setState({type: event.target.value});
             }}
             SelectProps = {{MenuProps: {className: classes.menu}}}
           >
             {getTemplateOptions()}
           </TextField>
+
           <div className = {classes.divider}/>
           {this.state.attributes.length === 0 ? null : getAttributes()}
+
         </div>
         <div className = {classes.divider}/>
         <div className = {classes.attributeCreator}>
@@ -126,10 +128,10 @@ class TemplateCreator extends Component
             select
             label = 'attribute type'
             className = {classes.textField}
-            value = {this.state.type}
+            value = {this.state.type2}
             onChange = {(event) =>
             {
-              this.setState({type: event.target.value});
+              this.setState({type2: event.target.value});
             }}
             SelectProps = {{MenuProps: {className: classes.menu}}}
           >
@@ -142,10 +144,12 @@ class TemplateCreator extends Component
             onClick = {(e) =>
             {
               e.preventDefault();
+
               const temp = {name: this.state.attributeName, type: this.state.type};
               let tempArray = JSON.parse(JSON.stringify(this.state.attributes));
+
               tempArray.push(temp);
-              this.setState({attributes: tempArray});
+              this.setState({fields: tempArray});
             }}
             className = 'button'
           >
@@ -159,6 +163,7 @@ class TemplateCreator extends Component
           onClick = {(e) =>
           {
             e.preventDefault();
+
             console.log(this.state.attributes);
           }}
           className = 'button'

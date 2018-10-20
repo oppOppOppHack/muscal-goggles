@@ -10,4 +10,4 @@ const ReportTemplate = new Schema({
     default: Date.now
   }
 });
-mongoose.model("metrics", ReportTemplate);
+mongoose.model("reportTemplates", ReportTemplate);
