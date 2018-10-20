@@ -29,6 +29,10 @@ const UserSchema = new Schema({
   status: {
     type: String,
     default: 'regular'
+  },
+  organization: {
+    type: String,
+    defualt: "Sample"
   }
 });
 
