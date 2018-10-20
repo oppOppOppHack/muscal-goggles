@@ -3,16 +3,15 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core';
-import './App.css';
 
-class App extends Component
+class TemplateCreator extends Component
 {
   state = {
     name: '',
-    type: '',
-    attributes: [],
-    attributeName: '',
     templateOption: '',
+    attributes: [],
+    type: '',
+    attributeName: '',
   }
 
   render()
@@ -60,8 +59,8 @@ class App extends Component
         const index = this.state.attributes.indexOf(temp);
 
         return (
-          <div className = 'attribute' key = {index}>
-            <p> {'NAME: ' + temp[0]} <br/> {'TYPE: ' + temp[1]} </p>
+          <div className = {classes.attribute} key = {index}>
+            <p> {'NAME: ' + temp['name']} <br/> {'TYPE: ' + temp['type']} </p>
             <Button
               variant = 'contained'
               color = 'primary'
@@ -82,9 +81,9 @@ class App extends Component
     }
 
     return (
-      <div className = 'App'>
-        <p className = 'title'> Template Creator </p>
-        <div className = 'form'>
+      <div className = {classes.app}>
+        <p className = {classes.title}> Template Creator </p>
+        <div className = {classes.form}>
           <TextField
             label = 'template name'
             id = 'name'
@@ -108,11 +107,11 @@ class App extends Component
           >
             {getTemplateOptions()}
           </TextField>
-          <div className = 'divider'/>
+          <div className = {classes.divider}/>
           {this.state.attributes.length === 0 ? null : getAttributes()}
         </div>
-        <div className = 'divider'/>
-        <div className = 'attributeCreator'>
+        <div className = {classes.divider}/>
+        <div className = {classes.attributeCreator}>
           <TextField
             label = 'attribute data'
             id = 'attributeName'
@@ -136,14 +135,14 @@ class App extends Component
           >
             {gettypes()}
           </TextField>
-          <div className = 'divider'/>
+          <div className = {classes.divider}/>
           <Button
             variant = 'contained'
             color = 'primary'
             onClick = {(e) =>
             {
               e.preventDefault();
-              const temp = [this.state.attributeName, this.state.type];
+              const temp = {name: this.state.attributeName, type: this.state.type};
               let tempArray = JSON.parse(JSON.stringify(this.state.attributes));
               tempArray.push(temp);
               this.setState({attributes: tempArray});
@@ -153,14 +152,14 @@ class App extends Component
             Add Attribute
           </Button>
         </div>
-        <div className = 'divider'/>
+        <div className = {classes.divider}/>
         <Button
           variant = 'contained'
           color = 'secondary'
           onClick = {(e) =>
           {
             e.preventDefault();
-            console.log(this.state);
+            console.log(this.state.attributes);
           }}
           className = 'button'
         >
@@ -175,6 +174,17 @@ const styles = (theme) =>
 {
   return (
   {
+    app:
+    {
+      width: '60%',
+      backgroundColor: 'slategray',
+      borderRadius: '2rem',
+      margin: 'auto',
+      marginTop: '1rem',
+      padding: '1rem',
+      textAlign: 'center'
+    },
+    divider: {height: '1rem'},
     textField:
     {
       marginLeft: theme.spacing.unit,
@@ -184,8 +194,35 @@ const styles = (theme) =>
     menuItem:
     {
       height: '0.5rem'
+    },
+    attribute:
+    {
+      marginTop: '0.5rem',
+      marginBottom: '0.5rem',
+      backgroundColor: 'lightgreen',
+      borderRadius: '1rem',
+      padding: '1rem',
+      paddingTop: '0.5rem'
+    },
+    title:
+    {
+      color: 'lightblue',
+      fontSize: '2rem'
+    },
+    attributeCreator:
+    {
+      backgroundColor: 'lightgreen',
+      borderRadius: '1rem',
+      padding: '1rem',
+      paddingTop: '0.5rem'
+    },
+    form:
+    {
+      backgroundColor: 'lightgray',
+      borderRadius: '1rem',
+      padding: '1rem'
     }
   });
 }
 
-export default withStyles(styles)(App);
+export default withStyles(styles)(TemplateCreator);
