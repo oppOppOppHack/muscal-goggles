@@ -1,0 +1,43 @@
+.App
+{
+  width: 60%;
+  background-color: slategray;
+  border-radius: 2rem;
+  margin: auto;
+  margin-top: 1rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.form
+{
+  background-color: lightgray;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.attributeCreator, .attribute
+
+{
+  background-color: lightgreen;
+  border-radius: 1rem;
+  padding: 1rem;
+  padding-top: 0.5rem;
+}
+
+.title
+{
+  color: lightblue;
+  font-size: 2rem;
+}
+
+.attribute
+{
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.divider
+{
+  height: 1rem;
+}
