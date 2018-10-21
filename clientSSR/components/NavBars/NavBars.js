@@ -9,6 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import React, {Component} from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Link from 'next/link';
 
 const styles =
 {
@@ -51,27 +52,21 @@ class NavBars extends Component
             this.setState({showing: true});
           }}
         >
-          <ListItem button
-            onClick = {() =>
-            {
-              window.location = '/create/template'
-            }}>
-            <ListItemText primary = "Create Template" />
-          </ListItem>
-          <ListItem button
-            onClick = {() =>
-              {
-                window.location = '/create/object'
-              }}>
-            <ListItemText primary = "Create Object" />
-          </ListItem>
-          <ListItem button
-          onClick = {() =>
-            {
-              window.location = '/blog'
-            }}>
-            <ListItemText primary = "Blog" />
-          </ListItem>
+          <div>
+            <Link prefetch href="/create/template">
+              <a>Create Template</a>
+            </Link>
+          </div>
+          <div>
+            <Link prefetch href="/create/object">
+              <a>Create Object</a>
+            </Link>
+          </div>
+          <div>
+            <Link prefetch href="/blog">
+              <a>Create Blog</a>
+            </Link>
+          </div>
         </div>
       </SwipeableDrawer>
       <AppBar position = "static">
@@ -89,24 +84,18 @@ class NavBars extends Component
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.grow} onClick = {() => {window.location= '/' }}>
             Muscal Goggles
-          </Typography>     
-          <Button 
-            color="inherit"
-            onClick = {() =>
-            {
-              window.location = '/login';
-            }}>
-            Login
-          </Button>
+          </Typography>
+          <div>
+            <Link prefetch href="/login">
+              <a>Log In</a>
+            </Link>
+          </div>
           |
-          <Button 
-            color="inherit"
-            onClick = {() =>
-            {
-              window.location = '/register';
-            }}>
-            Register
-          </Button>
+          <div>
+            <Link prefetch href="/register">
+              <a>Register</a>
+            </Link>
+          </div>
 
         </Toolbar>
       </AppBar>
