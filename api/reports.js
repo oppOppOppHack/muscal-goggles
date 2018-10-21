@@ -6,7 +6,7 @@ const async = require("async");
 const Metric = mongoose.model("metrics");
 const Template = mongoose.model("templates");
 const Event = mongoose.model("events");
-const Object = mongoose.model("objects");
+const Objects = mongoose.model("objects");
 // @route   GET api/reports/generate/:eventTemplatename
 // @desc    Generate metrics for the event
 // @access  Private
@@ -53,7 +53,7 @@ router.get("/generate/:eventTemplateName", passport.authenticate('jwt',{session:
                 Template.findOne({name: el.name})
                   .then(objTemplate=>{
                     //console.log(objTemplate);
-                    Object.find({templateId: objTemplate.id})
+                    Objects.find({templateId: objTemplate.id})
                     .then(objects=>{
                       //console.log(objects);
                       let metricsForObjects = [];
@@ -78,7 +78,7 @@ router.get("/generate/:eventTemplateName", passport.authenticate('jwt',{session:
                         field: el.name,
                         template: template.id,
                         templateType: "event",
-                        type: "object",
+                        typeMetric: "object",
                         dataPoints: metricsForObjects
                       });
                       console.log(metricsData);
@@ -88,8 +88,31 @@ router.get("/generate/:eventTemplateName", passport.authenticate('jwt',{session:
               }
             });
             async.series(objectFunct, (err, result)=>{
-              console.log(metricsData);
-              console.log(metricsData[0].dataPoints);
+             // console.log(metricsData);
+              //console.log(metricsData[0].dataPoints);
+              for(let i = 0; i < metricsData.length;i++){
+                if(metricsData[i].typeMetric === 'object'&&metricsData[i].dataPoints.length>0){
+                  let keys = Object.keys(metricsData[i].dataPoints[0].data);
+                  for(let j=0;j<keys.length; j++){
+                    let arrayData = metricsData[i].dataPoints.map(el=>{
+                      return {
+                        event: el.event,
+                        data: el.data[keys[j]]
+                      }
+                    });
+                    metricsData.push({
+                      field: metricsData[i].field + "-" + keys[j],
+                      template: template.id,
+                      templateType: "event",
+                      typeMetric: "objectFields",
+                      dataPoints: arrayData
+                    });
+                    
+                  }
+                  metricsData.splice(i, 1);
+                  i--;
+                }
+              }
               Metric.insertMany(metricsData, (err, docs) => {
                 res.json({
                   success: true,
@@ -101,5 +124,27 @@ router.get("/generate/:eventTemplateName", passport.authenticate('jwt',{session:
     });
 });
 //
-
+// @route   GET api/reports/metrics/:eventTemplateName
+// @desc    Get availabe metrics
+// @access  Private
+router.get("/api/reports/metric/:eventTemplateName",passport.authenticate('jwt', {session: false}),(req, res)=>{
+  Template.findOne({name: req.params.eventTemplateName})
+    .then(template=>{
+      if(!template)
+        return res.status(404).json({
+          success: false,
+          msg: "Not Found"
+        });
+      Metrics.find({template: template.id})
+        .then(metrics=>{
+          return res.json({
+            success: true,
+            metrics
+          })
+        })
+    })
+})
+router.post("/apply/filters", passport.authenticate('jwt', {session: false}), (req, res)=>{
+  //
+});
 module.exports= router;

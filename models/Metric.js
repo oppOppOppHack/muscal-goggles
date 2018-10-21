@@ -23,7 +23,7 @@ const MetricSchema = new Schema({
       required: true
     }
   }],
-  type: {
+  typeMetric: {
     type: String,
     default: 'nonobject'
   }
