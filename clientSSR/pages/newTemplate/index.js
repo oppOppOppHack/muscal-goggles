@@ -14,7 +14,7 @@ class templatePage extends Component{
   }
   componentDidMount(){
     if(this.props.isServer){
-      restoreAuth(this.props, this.redirect);
+      restoreAuth(this.props,()=>{});
     }
   }
   redirect = () => {
