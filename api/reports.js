@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const mongoose = require('mongoose');
 const passport = require("passport");
-const mongoose = require("mongoose");
 const async = require("async");
 const Metric = mongoose.model("metrics");
 const Template = mongoose.model("templates");

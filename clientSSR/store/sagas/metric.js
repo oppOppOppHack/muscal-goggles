@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {put} from 'redux-saga-effects';
+import {put} from 'redux-saga/effects';
 import * as actionTypes from '../actions/actionTypes';
 import {setMetrics} from '../actions/metrics';
 export function* getMetrics(action){

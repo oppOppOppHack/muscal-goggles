@@ -2,7 +2,7 @@ import * as actionType from '../actions/actionTypes';
 export const metricInitialState = {
   metrics: []
 };
-export default reducer = (state = metricInitialState, action)=>{
+const reducer = (state = metricInitialState, action)=>{
   switch(action.type){
     case actionType.SET_EVENT_METRICS:
       return {
@@ -13,3 +13,4 @@ export default reducer = (state = metricInitialState, action)=>{
       return state;
   }
 }
+export default reducer;
