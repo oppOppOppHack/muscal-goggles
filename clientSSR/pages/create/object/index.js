@@ -5,7 +5,7 @@ import Head from 'next/head';
 import {restoreAuth} from '../../../util/storeState';
 import ObjectCreator from '../../../components/ObjectCreator/ObjectCreator';
 import {getTemplates} from '../../../store/actions/template';
-
+import Button from '@material-ui/core/Button';
 import CSVReader from 'react-csv-reader';
 import {createObjects} from '../../../store/actions/object';
 import NavBars from '../../../components/NavBars/NavBars';
@@ -16,6 +16,9 @@ class templatePage extends Component{
     
     return {isServer, query};
   }
+  state={
+    object: null
+  };
   componentDidMount(){
     if(this.props.isServer){
       restoreAuth(this.props,()=>{});
@@ -48,7 +51,10 @@ class templatePage extends Component{
     };
 
     console.log(object);
-    this.props.dispatch(createObjects(object, this.redirect));
+    this.setState({
+      object
+    })
+    //this.props.dispatch(createObjects(object, this.redirect));
   }
   render(){
     return(
@@ -70,6 +76,19 @@ class templatePage extends Component{
           inputId="csvExample"
           inputStyle={{color: 'red'}}
         />
+        <Button
+          variant = 'contained'
+          color = 'secondary'
+          onClick = {(e) =>
+          {
+            e.preventDefault();
+            console.log(this.state);
+            this.props.dispatch(createObjects(this.state.object, this.redirect));
+          }}
+          className = 'button'
+        >
+          Create Objects
+        </Button>
       </div>
     );
   }

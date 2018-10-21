@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 
 const Metric = mongoose.model('metrics');
-
+const Template = mongoose.model("templates");
 // @route   POST api/metrics/addMetric
 // @desc    Create New template
 // @access  Private
@@ -13,6 +13,7 @@ router.post('/addMetric', passport.authenticate('jwt',{session: false}), (req, r
 		template,
 		field
 	};
+	//Template.find
 	const metInstance = new Metric(met);
 	metInstance.save()
 		.then(metric => {
