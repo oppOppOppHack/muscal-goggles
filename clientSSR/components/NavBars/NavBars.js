@@ -10,17 +10,7 @@ import React, {Component} from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Link from 'next/link';
-
-const styles =
-{
-  root: {
-  flexGrow: 1,
-  },
-  grow: {
-  flexGrow: 1,
-  },
-  list: {position: 'relative', width: '15vw'}
-};
+import styles from './Styles';
 
 class NavBars extends Component
 {
@@ -54,17 +44,12 @@ class NavBars extends Component
         >
           <div>
             <Link prefetch href="/create/template">
-              <a>Create Template</a>
+              <a className={classes.sideBar}>Create Template</a>
             </Link>
           </div>
           <div>
             <Link prefetch href="/create/object">
-              <a>Create Object</a>
-            </Link>
-          </div>
-          <div>
-            <Link prefetch href="/blog">
-              <a>Create Blog</a>
+              <a className={classes.sideBar}>Create Object</a>
             </Link>
           </div>
         </div>
@@ -87,13 +72,13 @@ class NavBars extends Component
           </Typography>
           <div>
             <Link prefetch href="/login">
-              <a>Log In</a>
+              <a className={classes.topBar}>Log In</a>
             </Link>
           </div>
           |
           <div>
             <Link prefetch href="/register">
-              <a>Register</a>
+              <a className={classes.topBar}>Register</a>
             </Link>
           </div>
 
