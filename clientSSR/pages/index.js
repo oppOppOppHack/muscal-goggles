@@ -3,9 +3,11 @@ import Link from 'next/link';
 import {connect} from 'react-redux';
 import {setUser} from '../store/actions/auth';
 import {setTest} from '../store/actions/test';
+import NavBars from '../components/NavBars/NavBars';
 import Head from 'next/head';
 const homePage = (props)=>(
   <div>
+    <NavBars/>
     <Head>
       <title>Muscal Goggles | Home</title>
     </Head>
