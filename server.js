@@ -34,13 +34,14 @@ require('./config/passport.js')(passport);
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   next();
 });
 //import routes
 const routes = require('./api/index.js');
 app.use("/api/users", routes.users);
 app.use("/api/templates",routes.templates);
+app.use("/api/objects", routes.objects);
 /*
 
 */

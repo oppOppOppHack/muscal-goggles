@@ -159,6 +159,12 @@ class TemplateCreator extends Component
           onClick = {(e) =>
           {
             e.preventDefault();
+            const {name, templateOption, attributes} = this.state;
+            this.props.submit({
+              name,
+              type: templateOption,
+              fields: attributes
+            });
             console.log(this.state.attributes);
           }}
           className = 'button'

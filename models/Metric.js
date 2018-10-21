@@ -8,6 +8,20 @@ const MetricSchema = new Schema({
   field: {
     type: String,
     required: true
-  }
+  },
+  templateType: {
+    type: String,
+    required: true
+  },
+  dataPoints: [{
+    event: {
+      type: Schema.Types.ObjectId,
+      required: true
+    },
+    data: {
+      type: Schema.Types.Mixed,
+      required: true
+    }
+  }]
 });
 mongoose.model("metrics", MetricSchema);

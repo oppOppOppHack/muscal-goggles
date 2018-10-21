@@ -24,14 +24,54 @@ router.get("/", passport.authenticate('jwt',{session: false}), (req, res)=>{
       })
     });
 });
+// @route   GET api/templates/event
+// @desc    Get all templates available to user
+// @access  Private
+router.get("/event", passport.authenticate('jwt',{session: false}), (req, res)=>{
+  //check organization
+  //implementation
+  Template.find({type: "event"})
+    .then(templates=>{
+      return res.json({
+        success: true,
+        templates
+      });
+    })
+    .catch(err=>{
+      return res.status(400).json({
+        success: false,
+        msg: "templates access error"
+      })
+    });
+});
+// @route   GET api/templates/objects
+// @desc    Get all templates available to user
+// @access  Private
+router.get("/object", passport.authenticate('jwt',{session: false}), (req, res)=>{
+  //check organization
+  //implementation
+  Template.find({type: "object"})
+    .then(templates=>{
+      return res.json({
+        success: true,
+        templates
+      });
+    })
+    .catch(err=>{
+      return res.status(400).json({
+        success: false,
+        msg: "templates access error"
+      })
+    });
+});
 // @route   POST api/templates/
 // @desc    Create New 
 // @access  Private
 router.post("/", passport.authenticate('jwt',{session: false}), (req, res)=>{
-  const {name} = req.body;
+  const {name, type, fields} = req.body;
   const template = {
-    type: req.body.templateOption,
-    fields: req.body.attributes, 
+    type,
+    fields,
     name,
     organization: req.user.organization
   };
