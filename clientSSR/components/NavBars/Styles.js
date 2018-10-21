@@ -9,7 +9,9 @@ const styles = {
   },
 
   list: {
-    position: 'relative', width: '25vw'
+    position: 'relative', width: '20vw',
+    fontWeight: "bold",
+    padding: "10px"
   },
 
   topBar: {
@@ -24,7 +26,9 @@ const styles = {
     color: "black",
     textDecoration: "none",
     fontFamily: "sans-serif",
-    textAlign: "center"
+    textAlign: "center",
+    padding: "10px",
+    color: "black"
   }
 };
 
