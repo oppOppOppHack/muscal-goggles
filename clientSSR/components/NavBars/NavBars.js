@@ -24,7 +24,7 @@ const styles =
 class NavBars extends Component
 {
   state = {showing: false}
-  
+
   render()
   {
     const {classes} = this.props;
@@ -51,14 +51,26 @@ class NavBars extends Component
             this.setState({showing: true});
           }}
         >
-          <ListItem button>
-            <ListItemText primary = "Option 1" />
+          <ListItem button
+            onClick = {() =>
+            {
+              window.location = '/create/template'
+            }}>
+            <ListItemText primary = "Create Template" />
           </ListItem>
-          <ListItem button>
-            <ListItemText primary = "Option 2" />
+          <ListItem button
+            onClick = {() =>
+              {
+                window.location = '/create/object'
+              }}>
+            <ListItemText primary = "Create Object" />
           </ListItem>
-          <ListItem button>
-            <ListItemText primary = "Option 3" />
+          <ListItem button
+          onClick = {() =>
+            {
+              window.location = '/blog'
+            }}>
+            <ListItemText primary = "Blog" />
           </ListItem>
         </div>
       </SwipeableDrawer>
@@ -73,14 +85,29 @@ class NavBars extends Component
               this.setState({showing: true});
             }}
           >
-            <MenuIcon />
+          <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            TITLE
-          </Typography>
-          <Button color="inherit">
+            Muscal Goggles
+          </Typography>     
+          <Button 
+            color="inherit"
+            onClick = {() =>
+            {
+              window.location = '/login';
+            }}>
             Login
           </Button>
+          |
+          <Button 
+            color="inherit"
+            onClick = {() =>
+            {
+              window.location = '/register';
+            }}>
+            Register
+          </Button>
+
         </Toolbar>
       </AppBar>
     </div>
