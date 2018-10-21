@@ -6,3 +6,14 @@ export const submitTemplate = (template, redirect)=>{
     redirect
   }
 }
+export const getTemplates = ()=>{
+  return{
+    type: actionTypes.INITIATE_GET_TEMPLATES,
+  }
+}
+export const setTemplates = (data)=>{
+  return{
+    type: actionTypes.SET_TEMPLATES,
+    payload: data
+  }
+}

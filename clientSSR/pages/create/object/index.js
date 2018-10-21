@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Router from 'next/router';
 import Head from 'next/head';
-import {restoreAuth} from '../../util/storeState';
-import TemplateCreator from '../../components/TemplateCreator/TemplateCreator';
-import {submitTemplate} from '../../store/actions/template';
+import {restoreAuth} from '../../../util/storeState';
+import ObjectCreator from '../../../components/ObjectCreator/ObjectCreator';
+import {getTemplates} from '../../../store/actions/template';
 class templatePage extends Component{
   static async getInitialProps(context){
     
@@ -16,22 +16,24 @@ class templatePage extends Component{
     if(this.props.isServer){
       restoreAuth(this.props,()=>{});
     }
+    this.props.dispatch(getTemplates());
   }
   redirect = () => {
     Router.push("/account");
   }
-  submitTemplate(template){
-    this.props.dispatch(submitTemplate(template, this.redirect))
+  submit = (template)=>{
+    //this.props.dispatch(submitTemplate(template, this.redirect))
   }
   render(){
     return(
       <div>
         <Head>
-          <title>Muscal Goggles | Template</title>
+          <title>Muscal Goggles | Object</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />
         </Head>
-        <TemplateCreator
-          submit = {this.submitTemplate}
+        <ObjectCreator
+          submit = {this.submit}
+          templates = {this.props.template.templates}
         />
       </div>
     );

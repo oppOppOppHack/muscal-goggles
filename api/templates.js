@@ -68,10 +68,10 @@ router.get("/object", passport.authenticate('jwt',{session: false}), (req, res)=
 // @desc    Create New 
 // @access  Private
 router.post("/", passport.authenticate('jwt',{session: false}), (req, res)=>{
-  const {name} = req.body;
+  const {name, type, fields} = req.body;
   const template = {
-    type: req.body.templateOption,
-    fields: req.body.attributes, 
+    type,
+    fields,
     name,
     organization: req.user.organization
   };

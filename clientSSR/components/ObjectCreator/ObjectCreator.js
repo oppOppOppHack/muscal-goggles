@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core';
 
 class ObjectCreator extends Component
 {
   /** MUST PASS IN PROPS.TEMPLATE OBJECT CONTAINING ATTRIBUTES AS ELEMENTS */
-  state = {}
-  
+  state = {
+    templates: [],
+    fields: [],
+    selectedTemplate: ''
+  }
+  /*
   static getDerivedStateFromProps(props, state)
   {
     if (state === null)
@@ -16,7 +21,7 @@ class ObjectCreator extends Component
     }
     else
     {
-      if (Object.keys(state).length === 0)
+      if (Object.keys(state).length === 0 && props.template)
       {
         return props.template;
       }
@@ -25,37 +30,96 @@ class ObjectCreator extends Component
         return state;
       }
     }
+    
   }
-
+*/
+  componentWillReceiveProps(props){
+    console.log(props);
+    if(props.templates){
+      const fields = props.templates.map(el=>{
+        let fieldObj = {
+          template: el.name
+        }
+        el.fields.forEach(element => {
+          fieldObj = {
+            ...fieldObj,
+            [element.name]: null
+          }
+        });
+        return fieldObj;
+      })
+      this.setState({
+        ...this.state,
+        templates: props.templates,
+        fields
+      })
+    }
+  }
   render()
   {
+    console.log(this.state);
     const {classes} = this.props;
 
     const getInputs = () =>
     {
-      return Object.keys(this.state).map((key) =>
+      if(this.state.selectedTemplate=='')
+        return null;
+      const element = this.state.fields.find(el=>(el.template===this.state.selectedTemplate));
+      return Object.keys(element).map((el) =>
       {
+        if(el == 'template')
+          return null;
         return (
-          <div className = {classes.input} key = {key}>
+          <div className = {classes.input} key = {el+this.state.selectedTemplate}>
             <TextField
-              label = {key}
-              id = {key}
-              name = {key}
-              value = {this.state.key}
+              label = {el}
+              id = {el+this.state.selectedTemplate}
+              name = {el+this.state.selectedTemplate}
+              value = {element[el]}
               onChange = {(event) =>
               {
-                let obj = JSON.parse(JSON.stringify(this.state));
-                obj[key] = event.target.value;
-                this.setState(obj);
+                let obj = JSON.parse(JSON.stringify(this.state.fields));
+                let index = obj.findIndex(templateObj=>{
+                  return templateObj.template == this.state.selectedTemplate;
+                })
+                obj[index][el] = event.target.value;
+                this.setState({fields: obj});
               }}
             />
           </div>
         );
       });
     }
-
+    const getTemplateOptions = () =>
+    {
+      return this.state.templates.map((e) =>
+      {
+        return (
+          <MenuItem
+            key = {e.name}
+            value = {e.name}
+            className = {classes.menuItem}
+          >
+            {e.name}
+          </MenuItem>
+        );
+      });
+    }
     return (
       <div className = {classes.app}>
+        <TextField
+            select
+            label = 'template type'
+            className = {classes.textField}
+            value = {this.state.selectedTemplate}
+            onChange = {(event) =>
+            {
+              this.setState({selectedTemplate: event.target.value});
+            }}
+            SelectProps = {{MenuProps: {className: classes.menu}}}
+          >
+            {getTemplateOptions()}
+          </TextField>
         {getInputs()}
         <Button
           variant = 'contained'
@@ -64,6 +128,7 @@ class ObjectCreator extends Component
           {
             e.preventDefault();
             console.log(this.state);
+            
           }}
           className = 'button'
         >
