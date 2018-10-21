@@ -22,6 +22,10 @@ const MetricSchema = new Schema({
       type: Schema.Types.Mixed,
       required: true
     }
-  }]
+  }],
+  type: {
+    type: String,
+    default: 'nonobject'
+  }
 });
 mongoose.model("metrics", MetricSchema);

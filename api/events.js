@@ -11,26 +11,28 @@ const Template = mongoose.model('templates');
 router.post('/add/:name', passport.authenticate('jwt',{session: false}),(req, res) => {
 	// expects array of events with the same templateId to be inserted
 	// validate input
-	if(Array.isArray(req.body) || req.body.length < 1)
+	if(!Array.isArray(req.body) || req.body.length < 1)
 	{
 		return res.status(400).json({
 			success: false,
 			msg: "Bad Request Body"
 		});
 	}
-	Template.findOne({name: req.params.name, organization: req.user.organization})
+	Template.findOne({name: req.params.name})
 		.then(template=>{
 			if(!template)
 				return res.status(404).json({
 					success: false,
 					msg: "Template not found"
 				});
+			
 			const eventDocs = req.body.map(el=>{
 				return {
 					data: el,
 					templateId: template._id
 				}
 			})
+
 			Event.collection.insert(eventDocs, (err, docs) => {
 				// on error
 				if (err) {
@@ -133,3 +135,4 @@ router.post('/getEventsByTemplateID', (req, res) => {
 		}
 	});
 });
+module.exports = router;
