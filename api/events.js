@@ -12,7 +12,7 @@ const Object = mongoose.model('objects');
 router.post('/add/:name', passport.authenticate('jwt',{session: false}),(req, res) => {
 	// expects array of events with the same templateId to be inserted
 	// validate input
-	if(Array.isArray(req.body) || req.body.length < 1)
+	if(!Array.isArray(req.body) || req.body.length < 1)
 	{
 		return res.status(400).json({
 			success: false,
@@ -27,37 +27,30 @@ router.post('/add/:name', passport.authenticate('jwt',{session: false}),(req, re
 					msg: "Template not found"
 				});
 
-			let firstObject = template.fields.find(el => {
-				return el.type === "object";
-			});
+			const eventDocs = req.body.map(el=>{
+				return {
+					data: el,
+					templateId: template._id
+				}
+			})
 
-			Object.findOne({ name: req.body[firstObject.name], templateId: template._id }).then(
-				obj => {
-					req.body[firstObject.name] = obj._id;
-					const eventDocs = req.body.map(el=>{
-						return {
-							data: el,
-							templateId: template._id
-						}
-					})
-					Event.collection.insert(eventDocs, (err, docs) => {
-						// on error
-						if (err) {
-							return res.status(500).json({
-								success: false,
-								msg: "Error adding events"
-							});
-						} else {
-							return res.status(200).json({
-								success: true,
-								msg: "Added events",
-								eventArray: docs
-							});
-						}
+			Event.collection.insert(eventDocs, (err, docs) => {
+				// on error
+				if (err) {
+					return res.status(500).json({
+						success: false,
+						msg: "Error adding events"
+					});
+				} else {
+					return res.status(200).json({
+						success: true,
+						msg: "Added events",
+						eventArray: docs
+
 					});
 				}
-			);
-		})
+			})
+		});
 });
 //TODO:
 // @route   POST api/events/remove
@@ -144,3 +137,4 @@ router.post('/getEventsByTemplateID', (req, res) => {
 		}
 	});
 });
+module.exports = router;

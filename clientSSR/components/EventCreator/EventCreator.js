@@ -27,6 +27,7 @@ class EventCreator extends Component
       {
         return state;
       }
+      console.log(template)
     }
   }
 
@@ -36,6 +37,7 @@ class EventCreator extends Component
 
     const getInputs = () =>
     {
+      console.log(this.props.template);
       return Object.keys(this.props.template).map((key) =>
       {
         return (

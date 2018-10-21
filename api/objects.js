@@ -68,7 +68,7 @@ router.post('/remove', (req, res) => {
 
 	//TODO: Probably more verification
 
-	Object.deleteMany({_id: { $in: uidList }}, (err) => {
+	Object.deleteMany({id: { $in: uidList }}, (err) => {
 		if(err) {
 			return res.send(500).json({
 				success: false,
