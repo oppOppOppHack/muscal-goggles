@@ -5,48 +5,51 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
 const Object = mongoose.model('objects');
-
+const Template = mongoose.model('templates');
 // @route   POST api/objects/add
 // @desc    add a list of objects
 // @access  Private
-router.post('/add', (req, res) => {
+router.post('/add/:name', passport.authenticate('jwt',{session: false}),(req, res) => {
 	// expects array of objects with the same templateId to be inserted
 	// validate input
-	if(typeof(req.body) != array || req.body.length < 1)
+	if(Array.isArray(req.body) || req.body.length < 1)
 	{
 		return res.status(400).json({
 			success: false,
 			msg: "Bad Request Body"
 		});
 	}
-
-	objList = req.body;
-
-	//' array of objects MUST HAVE THE SAME templateId
-	tid = objList[0].templateId;
-
-	//TODO: validate template against array elements
-
-	// insert objects into database
-	Object.collection.insert(objList, (err, docs) => {
-		// on error
-		if(err){
-				return res.status(500).json({
+	Template.findOne({name: req.params.name, organization: req.user.organization})
+		.then(template=>{
+			if(!template)
+				return res.status(404).json({
 					success: false,
-					msg: "Error adding objects"
+					msg: "Template not found"
 				});
-		}
-
-		else{
-			return res.status(200).json({
-				success: true,
-				msg: "Added objects"
-				newobj: docs
+			const objectDocs = req.body.map(el=>{
+				return {
+					data: el,
+					templateId: template._id
+				}
+			})
+			Object.collection.insert(objectDocs, (err, docs) => {
+				// on error
+				if (err) {
+					return res.status(500).json({
+						success: false,
+						msg: "Error adding objects"
+					});
+				} else {
+					return res.status(200).json({
+						success: true,
+						msg: "Added objects",
+						objArray: docs
+					});
+				}
 			});
-		}
-	});
+		})
 });
-
+//TODO:
 // @route   POST api/objects/remove
 // @desc    remove objects by uid
 // @access  Private
@@ -83,32 +86,29 @@ router.post('/remove', (req, res) => {
 // @route   POST api/objects/getObjectByUID
 // @desc    return a list of objects with the given uid(s)
 // @access  Private
-router.post('/getObjectByUID', (req, res) => {
-	// expects array of uids to get objects
-	// validate input
-	if(typeof(req.body) == array || req.body.length < 1) {
-		return res.send(400).json({
-			success: false,
-			msg: "Bad Request Body"
-		});
+router.post('/getObjectsByParams/:templateId', (req, res) => {
+/*
+	{
+		<field>: <value>
 	}
+*/
 
-	uidList = req.body;
-	Object.find({_id: { $in: uidList }}, (err, docs) => {
-		if(err) {
-			return res.send(500).json({
-				success: false,
-				msg: "Could not find objects"
+			Object.find({data: req.body, tempateId:req.params.templateId}, (err, docs) => {
+				if (err) {
+					return res.send(500).json({
+						success: false,
+						msg: "Could not find objects"
+					});
+				} else {
+					return res.send(200).json({
+						success: true,
+						msg: "Found objects",
+						data: docs
+					});
+				}
 			});
-		}
-		else {
-			return res.send(200).json({
-				success: true,
-				msg: "Found objects",
-				data: docs
-			});
-		}
-	});
+	
+	
 });
 
 // @route   POST api/objects/getObjectsByTemplateID
@@ -117,13 +117,6 @@ router.post('/getObjectByUID', (req, res) => {
 router.post('/getObjectsByTemplateID', (req, res) => {
 	// expects array of templateIds to return results for
 	// validate input
-	if(typeof(req.body) == array || req.body.length < 1) {
-		return res.send(400).json({
-			success: false,
-			msg: "Bad Request Body"
-		});
-	}
-
 	tidList = req.body;
 	Object.find({templateId: { $in: tidList }}, (err, docs) => {
 		if(err) {
