@@ -32,7 +32,7 @@ const UserSchema = new Schema({
   },
   organization: {
     type: String,
-    defualt: "Sample"
+    default: "Sample"
   }
 });
 
