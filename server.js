@@ -41,6 +41,7 @@ app.use(function (req, res, next) {
 const routes = require('./api/index.js');
 app.use("/api/users", routes.users);
 app.use("/api/templates",routes.templates);
+app.use("/api/objects", routes.objects);
 /*
 
 */
