@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import Router from 'next/router';
 import Head from 'next/head';
 import {restoreAuth} from '../../../util/storeState';
@@ -9,6 +9,8 @@ import Button from '@material-ui/core/Button';
 import CSVReader from 'react-csv-reader';
 import {createObjects} from '../../../store/actions/object';
 import NavBars from '../../../components/NavBars/NavBars';
+import {withStyles} from '@material-ui/core';
+
 class templatePage extends Component{
   static async getInitialProps(context){
     
@@ -56,7 +58,10 @@ class templatePage extends Component{
     })
     //this.props.dispatch(createObjects(object, this.redirect));
   }
-  render(){
+  render()
+  {
+    const {classes} = this.props;
+
     return(
       <div>
         <NavBars/>
@@ -68,29 +73,49 @@ class templatePage extends Component{
           //submit = {this.submit}
           templates = {this.props.template.templates}
         />
-        <CSVReader
-          cssClass="csv-input"
-          label="Select CSV"
-          onFileLoaded={this.handleData}
-          onError={()=>{}}
-          inputId="csvExample"
-          inputStyle={{color: 'red'}}
-        />
-        <Button
-          variant = 'contained'
-          color = 'secondary'
-          onClick = {(e) =>
-          {
-            e.preventDefault();
-            console.log(this.state);
-            this.props.dispatch(createObjects(this.state.object, this.redirect));
-          }}
-          className = 'button'
-        >
-          Create Objects
-        </Button>
+        <div className = {classes.multiple}>
+          <CSVReader
+            cssClass="csv-input"
+            label="Select CSV"
+            onFileLoaded={this.handleData}
+            onError={()=>{}}
+            inputId="csvExample"
+            inputStyle={{color: 'red'}}
+          />
+          <div className = {classes.divider}/>
+          <Button
+            variant = 'contained'
+            color = 'secondary'
+            onClick = {(e) =>
+            {
+              e.preventDefault();
+              console.log(this.state);
+              this.props.dispatch(createObjects(this.state.object, this.redirect));
+            }}
+          >
+            Create Objects
+          </Button>
+        </div>
       </div>
     );
   }
 }
-export default connect(state=>state)(templatePage);
+
+const styles = (theme) =>
+{
+  return ({
+    multiple:
+    {
+      width: '60%',
+      backgroundColor: 'lightblue',
+      borderRadius: '2rem',
+      margin: 'auto',
+      marginTop: '1rem',
+      padding: '1rem',
+      textAlign: 'center'
+    },
+    divider: {height: '1rem'}
+  });
+}
+
+export default connect(state=>state)(withStyles(styles)(templatePage));
