@@ -4,13 +4,14 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
-const Object = mongoose.model('objects');
+const Event = mongoose.model('events');
 const Template = mongoose.model('templates');
-// @route   POST api/objects/add
-// @desc    add a list of objects
+
+// @route   POST api/events/add
+// @desc    add a list of events
 // @access  Private
 router.post('/add/:name', passport.authenticate('jwt',{session: false}),(req, res) => {
-	// expects array of objects with the same templateId to be inserted
+	// expects array of events with the same templateId to be inserted
 	// validate input
 	if(Array.isArray(req.body) || req.body.length < 1)
 	{
@@ -26,35 +27,35 @@ router.post('/add/:name', passport.authenticate('jwt',{session: false}),(req, re
 					success: false,
 					msg: "Template not found"
 				});
-			const objectDocs = req.body.map(el=>{
+			const eventDocs = req.body.map(el=>{
 				return {
 					data: el,
 					templateId: template._id
 				}
 			})
-			Object.collection.insert(objectDocs, (err, docs) => {
+			Event.collection.insert(eventDocs, (err, docs) => {
 				// on error
 				if (err) {
 					return res.status(500).json({
 						success: false,
-						msg: "Error adding objects"
+						msg: "Error adding events"
 					});
 				} else {
 					return res.status(200).json({
 						success: true,
-						msg: "Added objects",
-						objArray: docs
+						msg: "Added events",
+						eventArray: docs
 					});
 				}
 			});
 		})
 });
 //TODO:
-// @route   POST api/objects/remove
-// @desc    remove objects by uid
+// @route   POST api/events/remove
+// @desc    remove events by uid
 // @access  Private
 router.post('/remove', (req, res) => {
-	// expects an array of Object uids to remove
+	// expects an array of Event uids to remove
 	// validate input
 	if(typeof(req.body) != array || req.body.length < 1) {
 		return res.send(400).json({
@@ -67,42 +68,42 @@ router.post('/remove', (req, res) => {
 
 	//TODO: Probably more verification
 
-	Object.deleteMany({_id: { $in: uidList }}, (err) => {
+	Event.deleteMany({_id: { $in: uidList }}, (err) => {
 		if(err) {
 			return res.send(500).json({
 				success: false,
-				msg: "Failed to delete objects from database"
+				msg: "Failed to delete events from database"
 			});
 		}
 		else {
 			return res.send(200).json({
 				success: true,
-				msg: "Deleted objects from database"
+				msg: "Deleted events from database"
 			});
 		}
 	});
 });
 
-// @route   POST api/objects/getObjectByUID
-// @desc    return a list of objects with the given uid(s)
+// @route   POST api/events/getEventsByUID
+// @desc    return a list of events with the given uid(s)
 // @access  Private
-router.post('/getObjectsByParams/:templateId', (req, res) => {
+router.post('/getEventsByParams/:templateId', (req, res) => {
 /*
 	{
 		<field>: <value>
 	}
 */
 
-			Object.find({data: req.body, tempateId:req.params.templateId}, (err, docs) => {
+			Event.find({data: req.body, tempateId:req.params.templateId}, (err, docs) => {
 				if (err) {
 					return res.send(500).json({
 						success: false,
-						msg: "Could not find objects"
+						msg: "Could not find events"
 					});
 				} else {
 					return res.send(200).json({
 						success: true,
-						msg: "Found objects",
+						msg: "Found events",
 						data: docs
 					});
 				}
@@ -111,24 +112,24 @@ router.post('/getObjectsByParams/:templateId', (req, res) => {
 
 });
 
-// @route   POST api/objects/getObjectsByTemplateID
-// @desc    return a list of objects with the given templateId(s)
+// @route   POST api/events/getEventsByTemplateID
+// @desc    return a list of events with the given templateId(s)
 // @access  Private
-router.post('/getObjectsByTemplateID', (req, res) => {
+router.post('/getEventsByTemplateID', (req, res) => {
 	// expects array of templateIds to return results for
 	// validate input
 	tidList = req.body;
-	Object.find({templateId: { $in: tidList }}, (err, docs) => {
+	Event.find({templateId: { $in: tidList }}, (err, docs) => {
 		if(err) {
 			return res.send(500).json({
 				success: false,
-				msg: "Could not find objects"
+				msg: "Could not find events"
 			});
 		}
 		else {
 			return res.send(200).json({
 				success: true,
-				msg: "Found objects",
+				msg: "Found events",
 				data: docs
 			});
 		}
