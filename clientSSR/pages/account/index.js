@@ -6,6 +6,7 @@ import NavBars from '../../components/NavBars/NavBars'
 import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Router from "next/router";
 
 class accountPage extends Component
 {
@@ -33,7 +34,7 @@ class accountPage extends Component
   {
     console.log(this.props);
     const {classes} = this.props;
-    
+
     let content = (<CircularProgress size = {50} thickness = {7} className = {classes.spinner}/>);
     if (this.props.auth.user)
     {
@@ -67,7 +68,7 @@ class accountPage extends Component
               onClick = {(e) =>
               {
                 e.preventDefault();
-                console.log(this.state);
+                Router.push("/graph");
               }}
             >
               Generate Report
@@ -87,7 +88,7 @@ class accountPage extends Component
         <div className = {classes.divider}/>
         {content}
       </div>
-      
+
     );
   }
 }

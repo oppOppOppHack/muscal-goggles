@@ -12,7 +12,7 @@ const ReportTemplate = mongoose.model('reportTemplates');
 // @route   POST api/reports/addTemplate
 // @desc    add a report template
 // @access  Private
-router.post('/addTemplate/:name', passport.authenticate('jwt',{session: false}),(req, res) => {
+router.post('/addTemplate', passport.authenticate('jwt',{session: false}),(req, res) => {
 	const {metrics} = req.body;
 	const rtemplate = {
 		metrics
@@ -127,7 +127,7 @@ router.get("/generate/:eventTemplateName", passport.authenticate('jwt',{session:
         Event.find({templateId: template.id})
           .then(events=>{
             //get the non-object fields and manipulate
-            
+
             let regularFields = template.fields.map(el=>{
               if(el.type =="object"){
                 return null
@@ -164,7 +164,7 @@ router.get("/generate/:eventTemplateName", passport.authenticate('jwt',{session:
                       //console.log(objects);
                       //console.log(objects);
                       objects.forEach(obj=>{
-                        
+
                         let eventSpecific = events.find(ele=>{
                           //console.log(ele);
                           //console.log(obj);
@@ -211,7 +211,7 @@ router.get("/generate/:eventTemplateName", passport.authenticate('jwt',{session:
                       typeMetric: "objectFields",
                       dataPoints: arrayData
                     });
-                    
+
                   }
                   metricsData.splice(i, 1);
                   i--;
@@ -252,4 +252,3 @@ router.post("/apply/filters", passport.authenticate('jwt', {session: false}), (r
   //
 });
 module.exports= router;
-
