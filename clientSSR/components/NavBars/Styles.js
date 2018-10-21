@@ -5,6 +5,7 @@ const styles = {
 
   grow: {
     flexGrow: 1,
+    cursor: "pointer"
   },
 
   list: {
