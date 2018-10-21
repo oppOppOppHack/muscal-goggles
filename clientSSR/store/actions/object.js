@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-export const createObjects = (data, history)=>{
+export const createObjects = (data, redirect)=>{
   /*
     expected: 
     {
@@ -12,6 +12,7 @@ export const createObjects = (data, history)=>{
   */
   return {
     type: actionTypes.INITIATE_OBJECT_CREATION,
-    data: data
+    data: data,
+    redirect
   }
 }

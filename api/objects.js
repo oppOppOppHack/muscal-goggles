@@ -10,6 +10,7 @@ const Template = mongoose.model('templates');
 router.post('/add/:name', passport.authenticate('jwt',{session: false}),(req, res) => {
 	// expects array of objects with the same templateId to be inserted
 	// validate input
+	console.log("hello?");
 	if(!Array.isArray(req.body) || req.body.length < 1)
 	{
 		return res.status(400).json({
@@ -17,6 +18,7 @@ router.post('/add/:name', passport.authenticate('jwt',{session: false}),(req, re
 			msg: "Bad Request Body"
 		});
 	}
+	console.log("in post route");
 	Template.findOne({name: req.params.name})
 		.then(template=>{
 			if(!template)

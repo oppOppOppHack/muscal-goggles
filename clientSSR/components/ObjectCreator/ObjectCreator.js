@@ -34,7 +34,7 @@ class ObjectCreator extends Component
   }
 */
   componentWillReceiveProps(props){
-    console.log(props);
+    //console.log(props);
     if(props.templates){
       const fields = props.templates.map(el=>{
         let fieldObj = {
@@ -57,7 +57,7 @@ class ObjectCreator extends Component
   }
   render()
   {
-    console.log(this.state);
+    //console.log(this.state);
     const {classes} = this.props;
 
     const getInputs = () =>
