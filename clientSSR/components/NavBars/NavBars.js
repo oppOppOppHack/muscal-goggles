@@ -42,16 +42,16 @@ class NavBars extends Component
             this.setState({showing: true});
           }}
         >
-          <div>
+          <ListItem button>
             <Link prefetch href="/create/template">
               <a className={classes.sideBar}>Create Template</a>
             </Link>
-          </div>
-          <div>
+          </ListItem>
+          <ListItem button>
             <Link prefetch href="/create/object">
               <a className={classes.sideBar}>Create Object</a>
             </Link>
-          </div>
+          </ListItem>
         </div>
       </SwipeableDrawer>
       <AppBar position = "static">
@@ -70,17 +70,17 @@ class NavBars extends Component
           <Typography variant="h6" color="inherit" className={classes.grow} onClick = {() => {window.location= '/' }}>
             Muscal Goggles
           </Typography>
-          <div>
+          <Button color="inherit">
             <Link prefetch href="/login">
               <a className={classes.topBar}>Log In</a>
             </Link>
-          </div>
+          </Button>
           |
-          <div>
+          <Button color="inherit">
             <Link prefetch href="/register">
               <a className={classes.topBar}>Register</a>
             </Link>
-          </div>
+          </Button>
 
         </Toolbar>
       </AppBar>
