@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Router from 'next/router';
 import Head from 'next/head';
 import {restoreAuth} from '../../../util/storeState';
-import ObjectCreator from '../../../components/TemplateCreator/ObjectCreator';
+import ObjectCreator from '../../../components/ObjectCreator/ObjectCreator';
 import {getTemplates} from '../../../store/actions/template';
 class templatePage extends Component{
   static async getInitialProps(context){
@@ -22,7 +22,7 @@ class templatePage extends Component{
     Router.push("/account");
   }
   submit = (template)=>{
-    this.props.dispatch(submitTemplate(template, this.redirect))
+    //this.props.dispatch(submitTemplate(template, this.redirect))
   }
   render(){
     return(
