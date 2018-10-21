@@ -5,8 +5,10 @@ import Head from 'next/head';
 import {restoreAuth} from '../../../util/storeState';
 import ObjectCreator from '../../../components/ObjectCreator/ObjectCreator';
 import {getTemplates} from '../../../store/actions/template';
+
 import CSVReader from 'react-csv-reader';
 import {createObjects} from '../../../store/actions/object';
+import NavBars from '../../../components/NavBars/NavBars';
 class templatePage extends Component{
   static async getInitialProps(context){
     
@@ -51,6 +53,7 @@ class templatePage extends Component{
   render(){
     return(
       <div>
+        <NavBars/>
         <Head>
           <title>Muscal Goggles | Object</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />
