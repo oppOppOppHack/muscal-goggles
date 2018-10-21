@@ -231,7 +231,7 @@ router.get("/generate/:eventTemplateName", passport.authenticate('jwt',{session:
 // @route   GET api/reports/metrics/:eventTemplateName
 // @desc    Get availabe metrics
 // @access  Private
-router.get("/api/reports/metric/:eventTemplateName",passport.authenticate('jwt', {session: false}),(req, res)=>{
+router.get("/metric/:eventTemplateName",passport.authenticate('jwt', {session: false}),(req, res)=>{
   Template.findOne({name: req.params.eventTemplateName})
     .then(template=>{
       if(!template)
@@ -239,7 +239,7 @@ router.get("/api/reports/metric/:eventTemplateName",passport.authenticate('jwt',
           success: false,
           msg: "Not Found"
         });
-      Metrics.find({template: template.id})
+      Metric.find({template: template.id})
         .then(metrics=>{
           return res.json({
             success: true,
