@@ -33,22 +33,28 @@ router.post('/addMetric', passport.authenticate('jwt',{session: false}), (req, r
 // @desc    Get all metrics
 // @access  Private
 router.get('/getMetrics', passport.authenticate('jwt', {session: false}), (req, res) => {
-	Metric.find({}, (err, docs) => {
-		if(err) {
-			return res.status(404).json({
+	Metric.find({})
+		.then(met => {
+			if(!met){
+				return res.status(404).json({
+					success: false,
+					msg: "No metrics found"
+				});
+			}
+			else {
+				return res.status(404).json({
+					success: true,
+					msg: "Found metrics",
+					met
+				});
+			}
+		})
+		.catch(err => {
+			return res.status(500).json({
 				success: false,
-				msg: "No metrics found"
+				msg: "error"
 			});
-		}
-
-		else {
-			return res.status(200).json({
-				success: true,
-				msg: "Returning all metrics"
-				data: docs
-			});
-		}
-	});
+		});
 });
 
 // @route   DELETE api/metrics/removeMetric:id
