@@ -1,30 +1,46 @@
 import React, {Component} from 'react';
-import Link from 'next/link';
-import {connect} from 'react-redux';
-import {setUser} from '../store/actions/auth';
-import {setTest} from '../store/actions/test';
-import NavBars from '../components/NavBars/NavBars';
+import { connect } from 'react-redux';
+import LoginForm from '../components/LoginForm/LoginForm';
+import {loginUser} from '../store/actions/auth';
+import Router from 'next/router';
 import Head from 'next/head';
-const homePage = (props)=>(
-  <div>
-    <NavBars/>
-    <Head>
-      <title>Muscal Goggles | Home</title>
-    </Head>
-    <h1>Hello How Are U? {props.isServer? "This is from server":"From another client"}</h1>
-    <Link href = "/blog/asdfasdf"><a>Blog page </a></Link>
-  </div>
-);
-homePage.getInitialProps = async function(context){
-  const { store, isServer, query } = context.ctx;
-  if(isServer){
-    store.dispatch(setTest("asdfasdfa"));
+import {restoreAuth} from '../util/storeState';
+import NavBars from '../components/NavBars/NavBars';
+
+class loginPage extends Component{
+  static async getInitialProps(context){
+
+    const{query, isServer}= context.ctx;
+
+    return {isServer, query};
   }
-  if(!isServer){
-    console.log(localStorage.getItem("currentUser"));
+  loginUser = (data)=>{
+    this.props.dispatch(loginUser(data, Router));
   }
-  //console.log("run once");
-  //console.log(localStorage);
-  return {query, isServer};
+  redirect = ()=>{
+    Router.push("/account");
+  }
+  componentDidMount(){
+    if(this.props.isServer){
+      restoreAuth(this.props, this.redirect);
+    }
+  }
+  render(){
+    return(
+      <div>
+        <NavBars/>
+        <Head>
+          <title>Muscal Goggles | Login</title>
+          <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />
+        </Head>
+        <LoginForm
+          loginUser = {this.loginUser}
+          errors = {this.props.errors.login}
+          redirect = {this.redirect}
+          auth = {this.props.auth}
+        />
+      </div>
+    );
+  }
 }
-export default connect(state => state)(homePage);
+export default connect(state=>state)(loginPage);

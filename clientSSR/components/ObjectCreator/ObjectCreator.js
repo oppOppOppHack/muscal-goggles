@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
-import { withStyles } from '@material-ui/core';
+import {withStyles} from '@material-ui/core';
 
 class ObjectCreator extends Component
 {
@@ -121,6 +121,7 @@ class ObjectCreator extends Component
             {getTemplateOptions()}
           </TextField>
         {getInputs()}
+        <div className = {classes.divider}/>
         <Button
           variant = 'contained'
           color = 'secondary'
@@ -155,7 +156,14 @@ const styles = (theme) =>
     input:
     {
       marginBottom: '1rem'
-    }
+    },
+    textField:
+    {
+      marginLeft: theme.spacing.unit,
+      marginRight: theme.spacing.unit,
+      width: '10rem',
+    },
+    divider: {height  : '1rem'}
   });
 }
 

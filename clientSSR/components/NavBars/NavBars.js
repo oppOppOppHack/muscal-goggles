@@ -9,17 +9,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import React, {Component} from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
-const styles =
-{
-  root: {
-  flexGrow: 1,
-  },
-  grow: {
-  flexGrow: 1,
-  },
-  list: {position: 'relative', width: '15vw'}
-};
+import Link from 'next/link';
+import styles from './Styles';
 
 class NavBars extends Component
 {
@@ -51,26 +42,15 @@ class NavBars extends Component
             this.setState({showing: true});
           }}
         >
-          <ListItem button
-            onClick = {() =>
-            {
-              window.location = '/create/template'
-            }}>
-            <ListItemText primary = "Create Template" />
+          <ListItem button>
+            <Link prefetch href="/create/template">
+              <a className={classes.sideBar}>Create Template</a>
+            </Link>
           </ListItem>
-          <ListItem button
-            onClick = {() =>
-              {
-                window.location = '/create/object'
-              }}>
-            <ListItemText primary = "Create Object" />
-          </ListItem>
-          <ListItem button
-          onClick = {() =>
-            {
-              window.location = '/blog'
-            }}>
-            <ListItemText primary = "Blog" />
+          <ListItem button>
+            <Link prefetch href="/create/object">
+              <a className={classes.sideBar}>Create Object</a>
+            </Link>
           </ListItem>
         </div>
       </SwipeableDrawer>
@@ -89,23 +69,17 @@ class NavBars extends Component
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.grow} onClick = {() => {window.location= '/' }}>
             Muscal Goggles
-          </Typography>     
-          <Button 
-            color="inherit"
-            onClick = {() =>
-            {
-              window.location = '/login';
-            }}>
-            Login
+          </Typography>
+          <Button color="inherit">
+            <Link prefetch href="/login">
+              <a className={classes.topBar}>Log In</a>
+            </Link>
           </Button>
           |
-          <Button 
-            color="inherit"
-            onClick = {() =>
-            {
-              window.location = '/register';
-            }}>
-            Register
+          <Button color="inherit">
+            <Link prefetch href="/register">
+              <a className={classes.topBar}>Register</a>
+            </Link>
           </Button>
 
         </Toolbar>

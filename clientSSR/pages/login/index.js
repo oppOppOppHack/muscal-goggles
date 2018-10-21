@@ -7,12 +7,11 @@ import Head from 'next/head';
 import {restoreAuth} from '../../util/storeState';
 import NavBars from '../../components/NavBars/NavBars';
 
-
 class loginPage extends Component{
   static async getInitialProps(context){
-    
+
     const{query, isServer}= context.ctx;
-    
+
     return {isServer, query};
   }
   loginUser = (data)=>{

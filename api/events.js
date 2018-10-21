@@ -4,6 +4,7 @@ const passport = require('passport');
 
 const Event = mongoose.model('events');
 const Template = mongoose.model('templates');
+const Object = mongoose.model('objects');
 
 // @route   POST api/events/add
 // @desc    add a list of events
@@ -25,7 +26,7 @@ router.post('/add/:name', passport.authenticate('jwt',{session: false}),(req, re
 					success: false,
 					msg: "Template not found"
 				});
-			
+
 			const eventDocs = req.body.map(el=>{
 				return {
 					data: el,
@@ -45,10 +46,11 @@ router.post('/add/:name', passport.authenticate('jwt',{session: false}),(req, re
 						success: true,
 						msg: "Added events",
 						eventArray: docs
+
 					});
 				}
-			});
-		})
+			})
+		});
 });
 //TODO:
 // @route   POST api/events/remove
