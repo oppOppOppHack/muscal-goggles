@@ -96,22 +96,14 @@ router.post('/getObjectsByParams/:templateId', (req, res) => {
 					});
 				} else {
 					return res.json({
-						success: true,	
+						success: true,
 						msg: "Found objects",
 						data: objects
 					});
 				}
-<<<<<<< HEAD
 			}).catch(err=>{
 				return res.status(500).json(err);
-			})
-	
-	
-=======
 			});
-
-
->>>>>>> 29648a3db3085e3af00d550a070381f75c397b47
 });
 
 // @route   POST api/objects/getObjectsByTemplateID
