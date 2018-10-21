@@ -10,14 +10,14 @@ const Template = mongoose.model('templates');
 router.post('/add/:name', passport.authenticate('jwt',{session: false}),(req, res) => {
 	// expects array of objects with the same templateId to be inserted
 	// validate input
-	if(Array.isArray(req.body) || req.body.length < 1)
+	if(!Array.isArray(req.body) || req.body.length < 1)
 	{
 		return res.status(400).json({
 			success: false,
 			msg: "Bad Request Body"
 		});
 	}
-	Template.findOne({name: req.params.name, organization: req.user.organization})
+	Template.findOne({name: req.params.name})
 		.then(template=>{
 			if(!template)
 				return res.status(404).json({
@@ -25,6 +25,7 @@ router.post('/add/:name', passport.authenticate('jwt',{session: false}),(req, re
 					msg: "Template not found"
 				});
 			const objectDocs = req.body.map(el=>{
+				console.log(template._id)
 				return {
 					data: el,
 					templateId: template._id
@@ -85,28 +86,32 @@ router.post('/remove', (req, res) => {
 // @desc    return a list of objects with the given uid(s)
 // @access  Private
 router.post('/getObjectsByParams/:templateId', (req, res) => {
-/*
-	{
-		<field>: <value>
-	}
-*/
-
-			Object.find({data: req.body, tempateId:req.params.templateId}, (err, docs) => {
-				if (err) {
-					return res.send(500).json({
+			console.log(req.body);
+			Object.find({data: req.body, templateId:req.params.templateId})
+			.then(objects => {
+				if (!objects) {
+					return res.status(404).json({
 						success: false,
 						msg: "Could not find objects"
 					});
 				} else {
-					return res.send(200).json({
-						success: true,
+					return res.json({
+						success: true,	
 						msg: "Found objects",
-						data: docs
+						data: objects
 					});
 				}
+<<<<<<< HEAD
+			}).catch(err=>{
+				return res.status(500).json(err);
+			})
+	
+	
+=======
 			});
 
 
+>>>>>>> 29648a3db3085e3af00d550a070381f75c397b47
 });
 
 // @route   POST api/objects/getObjectsByTemplateID
@@ -118,13 +123,13 @@ router.post('/getObjectsByTemplateID', (req, res) => {
 	tidList = req.body;
 	Object.find({templateId: { $in: tidList }}, (err, docs) => {
 		if(err) {
-			return res.send(500).json({
+			return res.status(404).json({
 				success: false,
 				msg: "Could not find objects"
 			});
 		}
 		else {
-			return res.send(200).json({
+			return res.json({
 				success: true,
 				msg: "Found objects",
 				data: docs
@@ -132,3 +137,5 @@ router.post('/getObjectsByTemplateID', (req, res) => {
 		}
 	});
 });
+
+module.exports = router;
