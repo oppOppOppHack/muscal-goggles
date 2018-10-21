@@ -5,6 +5,7 @@ import Head from 'next/head';
 import {restoreAuth} from '../../../util/storeState';
 import TemplateCreator from '../../../components/TemplateCreator/TemplateCreator';
 import {submitTemplate} from '../../../store/actions/template';
+import NavBars from '../../../components/NavBars/NavBars';
 class templatePage extends Component{
   static async getInitialProps(context){
     
@@ -26,6 +27,7 @@ class templatePage extends Component{
   render(){
     return(
       <div>
+        <NavBars/>
         <Head>
           <title>Muscal Goggles | Template</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />

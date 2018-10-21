@@ -87,7 +87,7 @@ class NavBars extends Component
           >
           <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit" className={classes.grow}>
+          <Typography variant="h6" color="inherit" className={classes.grow} onClick = {() => {window.location= '/' }}>
             Muscal Goggles
           </Typography>     
           <Button 
