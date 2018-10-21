@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Head from 'next/head';
 import {restoreAuth} from '../../util/storeState';
+import NavBars from '../../components/NavBars/NavBars';
+
 class accountPage extends Component{
   static async getInitialProps(context){
     const { store, isServer, query } = context.ctx;
@@ -21,6 +23,7 @@ class accountPage extends Component{
   render(){
     return(
       <div>
+        <NavBars/>
         <Head>
           <title>Muscal Goggles | Account</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />

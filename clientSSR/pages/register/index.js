@@ -4,6 +4,8 @@ import Router from 'next/router';
 import {registerUser} from '../../store/actions/auth';
 import RegisterForm from '../../components/RegisterForm/RegisterForm';
 import {restoreAuth} from '../../util/storeState';
+import NavBars from '../../components/NavBars/NavBars';
+
 class registerPage extends Component{
   static async getInitialProps(context){
     const {query, isServer} = context.ctx;
@@ -22,12 +24,15 @@ class registerPage extends Component{
   }
   render(){
     return (
-      <RegisterForm
-        registerUser = {this.registerUser}
-        errors = {this.props.errors.register}
-        redirect = {this.redirect}
-        auth = {this.props.auth}
-      />
+      <div>
+        <NavBars />
+        <RegisterForm
+          registerUser = {this.registerUser}
+          errors = {this.props.errors.register}
+          redirect = {this.redirect}
+          auth = {this.props.auth}
+        />
+      </div>
     )
   }
 }

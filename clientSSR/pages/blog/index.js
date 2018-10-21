@@ -3,6 +3,8 @@ import {setUser} from '../../store/actions/auth';
 import {setTest} from '../../store/actions/test';
 import {connect}from 'react-redux';
 import Link from 'next/link';
+import NavBars from '../../components/NavBars/NavBars';
+
 class blogPage extends Component{
   state = {
     title: ""
@@ -41,7 +43,9 @@ class blogPage extends Component{
     console.log(this.props.query.params.title);
     console.log(this.props.isServer);
     return (
-      <div>Blog Page with ID: {this.props.query.params.title}<Link href = "/"><a>Hello</a></Link></div>
+      <div>
+        <NavBars/>
+        Blog Page with ID: {this.props.query.params.title}<Link href = "/"><a>Hello</a></Link></div>
     )
   }
 }
