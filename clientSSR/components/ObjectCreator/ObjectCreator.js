@@ -163,7 +163,7 @@ const styles = (theme) =>
       marginRight: theme.spacing.unit,
       width: '10rem',
     },
-    divider: {height: '1rem'}
+    divider: {height  : '1rem'}
   });
 }
 
