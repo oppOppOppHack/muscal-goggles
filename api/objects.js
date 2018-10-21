@@ -1,7 +1,5 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
 const Object = mongoose.model('objects');
@@ -78,7 +76,7 @@ router.post('/remove', (req, res) => {
 		else {
 			return res.send(200).json({
 				success: true,
-				msg: "Deleted users from database"
+				msg: "Deleted objects from database"
 			});
 		}
 	});
@@ -103,11 +101,17 @@ router.post('/getObjectsByParams/:templateId', (req, res) => {
 						data: objects
 					});
 				}
+<<<<<<< HEAD
 			}).catch(err=>{
 				return res.status(500).json(err);
 			})
 	
 	
+=======
+			});
+
+
+>>>>>>> 29648a3db3085e3af00d550a070381f75c397b47
 });
 
 // @route   POST api/objects/getObjectsByTemplateID
